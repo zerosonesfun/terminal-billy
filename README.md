@@ -4,3 +4,24 @@ A command line interface for any website that anyone with very basic website cod
 ---
 
 ## Mission
+1. Create a fun and nerdy way to interact with websites.
+2. Keep it as simple as adding a hamburger menu to a website. Beginner webmasters shoukd be able to copy/paste the code and have a version up and running quickly.
+
+---
+
+## Installation
+1. Copy the code in terminal.html and paste it where you want it.
+2. If pasting into a new, standalone page you an existing page, delete from <html> to <body> and delete </body> and </html> at the end.
+3. Replace response verbiage you see throughout with your own.
+
+In the future a generator will be built so one can more quickly have a custom terminal without much thought.
+
+---
+
+## Notes
+
+- $b = "terminal billy" and/or terminal is ready to accept commands, type them here.
+- This readme won't list available commands since the "help" command lists them.
+- If you have an idea, go to the discussion board (look for tab within this repository's menu above).
+- If you want to report a bug look for thd issues tab above.
+- If you are a develooer, I accept pull reauests.
