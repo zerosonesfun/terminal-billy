@@ -1,6 +1,9 @@
 # terminal-billy
+
 A command line interface for any website that anyone with very basic website coding knowledge can get up and running and customize quickly and easily.
+
 [Demo](https://zerosonesfun.github.io/terminal-billy/terminal.html)
+
 (The email command won't fully work in the demo, or your version at this time. See notes section below.)
 ---
 
