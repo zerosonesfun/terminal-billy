@@ -11,7 +11,7 @@ A command line interface for any website that anyone with very basic website cod
 
 ## Installation
 1. Copy the code in terminal.html and paste it where you want it.
-2. If pasting into an existing page you may delete from <html> to <body> and delete </body> and </html> at the end.
+2. If pasting into an existing page you may delete from `<html>` to `<body>` and delete `</body>` and `</html>` at the end.
 3. Replace response verbiage you see throughout with your own.
 
 In the future a generator will be built so one can more quickly have a custom terminal without much thought.
@@ -24,4 +24,4 @@ In the future a generator will be built so one can more quickly have a custom te
 - This readme won't list available commands since the "help" command lists them.
 - If you have an idea, go to the discussion board (look for tab within this repository's menu above).
 - If you want to report a bug look for thd issues tab above.
-- If you are a develooer, I accept pull reauests.
+- If you are a developer, I accept pull reauests.
