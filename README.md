@@ -27,6 +27,7 @@ In the future a generator will be built so one can more quickly have a custom te
 
 - $b = "terminal billy" and/or terminal is ready to accept commands, type them here.
 - This readme won't list available commands since the "help" command lists them.
+- em = The email command. At my person blog it is set up to email me only and to make this work I use a server side file to process the email. Since I want this to be a simple copy/paste tool that anyone can implement, I need to give this command more thought.
 - If you have an idea, go to the discussion board (look for tab within this repository's menu above).
 - If you want to report a bug look for the issues tab above.
 - If you are a developer, I accept pull requests.
