@@ -23,5 +23,5 @@ In the future a generator will be built so one can more quickly have a custom te
 - $b = "terminal billy" and/or terminal is ready to accept commands, type them here.
 - This readme won't list available commands since the "help" command lists them.
 - If you have an idea, go to the discussion board (look for tab within this repository's menu above).
-- If you want to report a bug look for thd issues tab above.
-- If you are a developer, I accept pull reauests.
+- If you want to report a bug look for the issues tab above.
+- If you are a developer, I accept pull requests.
