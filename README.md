@@ -5,6 +5,7 @@ A command line interface for any website that anyone with very basic website cod
 [Demo](https://zerosonesfun.github.io/terminal-billy/terminal.html)
 
 (The email command won't fully work in the demo, or your version at this time. See notes section below.)
+
 ---
 
 ## Mission
