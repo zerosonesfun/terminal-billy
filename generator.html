@@ -277,18 +277,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </body>
 </html>`;
 
-    var generatedCode = codeTemplate
-        .replace(/\${userInputEndsWith}/g, userInputEndsWith)
-        .replace(/\${allowedCommands}/g, allowedCommands)
-        .replace(/\${plainTextError}/g, plainTextError)
-        .replace(/\${additionalJokes}/g, additionalJokes)
-        .replace(/\${customNames}/g, customNames)
-        .replace(/\${customDescriptions}/g, customDescriptions)
-        .replace(/\${customPageSlugs}/g, customPageSlugs)
-        .replace(/\${customAvailableNames}/g, customAvailableNames);
+var generatedCode = codeTemplate
+    .replace(/\${userInputEndsWith}/g, userInputEndsWith)
+    .replace(/\${allowedCommands}/g, allowedCommands)
+    .replace(/\${plainTextError}/g, plainTextError)
+    .replace(/\${additionalJokes}/g, additionalJokes)
+    .replace(/\${customNames}/g, customNames)
+    .replace(/\${customDescriptions}/g, customDescriptions)
+    .replace(/\${customPageSlugs}/g, customPageSlugs)
+    .replace(/\${customAvailableNames}/g, customAvailableNames);
 
-    document.getElementById('generated-code').value = generatedCode;
-  }
+document.getElementById('generated-code').value = generatedCode;
+
 </script>
 
 </body>
