@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Billy Wilcosky">
+    <meta name="license" content="GNUv3">
+    <meta name="description" content="Terminal Billy is the fun and nerdy way to interact with websites">
+    <meta name="keywords" content="command line, terminal, interactive, navigation">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Terminal Billy - Fun and Nerdy Interaction">
+    <meta property="og:description" content="Terminal Billy is the fun and nerdy way to interact with websites">
+    <title>$b</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+  
+<style>
+.terminal-input {
+    background: transparent;
+    border: none;
+    font-size: inherit;
+    color: inherit;
+    font-family: monospace;
+}
+
+.terminal-input:focus{
+    outline: none;
+}
+
+.terminal-output {
+  white-space: pre-wrap;
+}
+
+.typing::after {
+  content: "";
+  animation: typing 1s steps(40, end);
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+</style>
+
+<div>
+  <h1>Terminal Billy Generator</h1>
+  <form id="terminalForm">
+    <h2>User Verbiage</h2>
+    <div>
+      <label for="userInputEndsWith">userInput.endsWith: </label>
+      <input type="text" id="userInputEndsWith" name="userInputEndsWith">
+    </div>
+    <div>
+      <label for="allowedCommands">!allowedCommands.includes(command): </label>
+      <input type="text" id="allowedCommands" name="allowedCommands">
+    </div>
+    <div>
+      <label for="plainTextError">The error for if not plain text: if (isPlainText(params)): </label>
+      <input type="text" id="plainTextError" name="plainTextError">
+    </div>
+    <div>
+      <label for="additionalJokes">Additional jokes for the jk command (comma-separated): </label>
+      <input type="text" id="additionalJokes" name="additionalJokes">
+    </div>
+    <div>
+      <label for="customNames">Custom names for the who command (comma-separated): </label>
+      <input type="text" id="customNames" name="customNames">
+    </div>
+    <div>
+      <label for="customDescriptions">Descriptions for custom names (comma-separated, in the same order): </label>
+      <input type="text" id="customDescriptions" name="customDescriptions">
+    </div>
+    <div>
+      <label for="customPageSlugs">Custom page slugs for the ls pages command (comma-separated): </label>
+      <input type="text" id="customPageSlugs" name="customPageSlugs">
+    </div>
+    <div>
+      <label for="customAvailableNames">Custom available names for the ls names command (comma-separated): </label>
+      <input type="text" id="customAvailableNames" name="customAvailableNames">
+    </div>
+    <button type="button" onclick="generateCode()">Generate Code</button>
+  </form>
+</div>
+
+<h2>Generated Code</h2>
+<textarea id="generated-code" rows="20" cols="80" readonly></textarea>
+
+<script>
+  function generateCode() {
+    var userInputEndsWith = document.getElementById('userInputEndsWith').value;
+    var allowedCommands = document.getElementById('allowedCommands').value;
+    var plainTextError = document.getElementById('plainTextError').value;
+    var additionalJokes = document.getElementById('additionalJokes').value;
+    var customNames = document.getElementById('customNames').value;
+    var customDescriptions = document.getElementById('customDescriptions').value;
+    var customPageSlugs = document.getElementById('customPageSlugs').value;
+    var customAvailableNames = document.getElementById('customAvailableNames').value;
+
+    var codeTemplate = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Billy Wilcosky">
+    <meta name="license" content="GNUv3">
+    <meta name="description" content="Terminal Billy is the fun and nerdy way to interact with websites">
+    <meta name="keywords" content="command line, terminal, interactive, navigation">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Terminal Billy - Fun and Nerdy Interaction">
+    <meta property="og:description" content="Terminal Billy is the fun and nerdy way to interact with websites">
+    <title>$b</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<style>
+.terminal-input {
+    background: transparent;
+    border: none;
+    font-size: inherit;
+    color: inherit;
+    font-family: monospace;
+}
+
+.terminal-input:focus{
+    outline: none;
+}
+
+.terminal-output {
+  white-space: pre-wrap;
+}
+
+.typing::after {
+  content: "";
+  animation: typing 1s steps(40, end);
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+</style>
+
+<div class="terminal-container">
+    <pre class="terminal-output"></pre>
+    $b <input type="text" class="terminal-input" autofocus>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    function typeResponse(response) {
+        var output = document.querySelector('.terminal-output');
+        output.classList.remove('typing');
+        output.textContent += response;
+        output.scrollTop = output.scrollHeight;
+    }
+
+    function handleUserInput() {
+        var inputField = document.querySelector('.terminal-input');
+        var userInput = inputField.value.trim();
+        inputField.value = '';
+
+        if (userInput.endsWith('?')) {
+            typeResponse("${userInputEndsWith}\\n");
+            return;
+        }
+
+        if (emailMode) {
+            handleEmailCommand(userInput);
+            return;
+        }
+
+        var command = userInput.split(' ')[0].toLowerCase();
+        var params = userInput.substr(userInput.indexOf(' ') + 1);
+
+        var allowedCommands = ['cd', 'help', 'jk', 'em', 'abort', 'who', 'ls'];
+
+        if (!allowedCommands.includes(command)) {
+            typeResponse("${allowedCommands}\\n");
+            return;
+        }
+
+        if (command === 'cd') {
+            if (!params) {
+                typeResponse('Usage: cd [directory]\\n');
+            } else if (params.toLowerCase() === 'portfolio') {
+                window.location.href = 'https://www.example.com/portfolio';
+            } else if (params.toLowerCase() === 'blog') {
+                window.location.href = 'https://www.example.com/blog';
+            } else if (params.toLowerCase() === 'about') {
+                window.location.href = 'https://www.example.com/about';
+            } else {
+                typeResponse("cd: no such directory: " + params + "\\n");
+            }
+        } else if (command === 'help') {
+            typeResponse('Available commands: cd, help, jk, em, abort, who, ls\\n');
+        } else if (command === 'jk') {
+            var jokes = ['Why don\'t scientists trust atoms? Because they make up everything!',
+                'Did you hear about the mathematician who’s afraid of negative numbers? He will stop at nothing to avoid them.',
+                'What do you call a fish with no eyes? Fsh.',
+                'Why did the scarecrow win an award? Because he was outstanding in his field!',
+                'Why don’t skeletons fight each other? They don’t have the guts!',
+                'How do you organize a space party? You "planet"!'];
+
+            var additionalJokes = ['${additionalJokes}'];
+
+            var allJokes = jokes.concat(additionalJokes);
+
+            var randomJoke = allJokes[Math.floor(Math.random() * allJokes.length)];
+
+            typeResponse(randomJoke + '\\n');
+        } else if (command === 'em') {
+            typeResponse("${plainTextError}\\n");
+        } else if (command === 'abort') {
+            typeResponse('Aborted.\\n');
+        } else if (command === 'who') {
+            var names = ['Billy', 'John', 'Sara'];
+
+            var customNames = ['${customNames}'];
+
+            var allNames = names.concat(customNames);
+
+            typeResponse(allNames.join(' ') + '\\n');
+        } else if (command === 'ls') {
+            var pages = ['portfolio', 'blog', 'about'];
+
+            var customPageSlugs = ['${customPageSlugs}'];
+
+            var allPages = pages.concat(customPageSlugs);
+
+            var pageLinks = allPages.map(function(page) {
+                return '<a href="https://www.example.com/' + page + '">' + page + '</a>';
+            });
+
+            var availableNames = ['Billy', 'John', 'Sara'];
+
+            var customAvailableNames = ['${customAvailableNames}'];
+
+            var allAvailableNames = availableNames.concat(customAvailableNames);
+
+            typeResponse(pageLinks.join(' ') + '\\n');
+            typeResponse(allAvailableNames.join(' ') + '\\n');
+        }
+    }
+
+    document.querySelector('.terminal-input').addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            handleUserInput();
+        }
+    });
+
+    document.querySelector('.terminal-input').focus();
+});
+</script>
+
+</body>
+</html>`;
+
+    var generatedCode = codeTemplate
+        .replace(/\${userInputEndsWith}/g, userInputEndsWith)
+        .replace(/\${allowedCommands}/g, allowedCommands)
+        .replace(/\${plainTextError}/g, plainTextError)
+        .replace(/\${additionalJokes}/g, additionalJokes)
+        .replace(/\${customNames}/g, customNames)
+        .replace(/\${customDescriptions}/g, customDescriptions)
+        .replace(/\${customPageSlugs}/g, customPageSlugs)
+        .replace(/\${customAvailableNames}/g, customAvailableNames);
+
+    document.getElementById('generated-code').value = generatedCode;
+  }
+</script>
+
+</body>
+</html>
