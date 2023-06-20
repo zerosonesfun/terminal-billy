@@ -54,7 +54,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>$b</title>
+  <title>\${pageTitle}</title>
   <style>
     /* CSS styles here */
   </style>
@@ -62,11 +62,10 @@
 <body>
   <div class="terminal-container">
     <pre class="terminal-output"></pre>
-    $b <input type="text" class="terminal-input" autofocus>
+    <input type="text" class="terminal-input" autofocus>
   </div>
 
   <script>
-    // JavaScript code here
     var terminalOutput = document.querySelector('.terminal-output');
     var terminalInput = document.querySelector('.terminal-input');
     var commandsHistory = [];
@@ -95,7 +94,7 @@
         printOutput(joke);
       } else if (command === 'who') {
         printOutput('Available names:');
-        customNames.forEach(function(name, index) {
+        customNames.forEach(function (name, index) {
           printOutput(name + ': ' + customDescriptions[index]);
         });
       } else if (command.startsWith('ls')) {
@@ -103,12 +102,12 @@
 
         if (subcommand === 'pages') {
           printOutput('Custom page slugs:');
-          customPageSlugs.forEach(function(slug) {
+          customPageSlugs.forEach(function (slug) {
             printOutput(slug);
           });
         } else if (subcommand === 'who') {
           printOutput('Available names:');
-          customAvailableNames.forEach(function(name) {
+          customAvailableNames.forEach(function (name) {
             printOutput(name);
           });
         } else {
@@ -125,7 +124,7 @@
       }
     }
 
-    terminalInput.addEventListener('keydown', function(event) {
+    terminalInput.addEventListener('keydown', function (event) {
       if (event.key === 'ArrowUp') {
         if (currentCommandIndex > 0) {
           currentCommandIndex--;
@@ -152,7 +151,7 @@
 </html>`;
 
       var generatedCode = codeTemplate
-        .replace(/\$b/g, document.title)
+        .replace(/\${pageTitle}/g, document.title)
         .replace(/\${userInputEndsWith}/g, userInputEndsWith)
         .replace(/\${allowedCommands}/g, JSON.stringify(allowedCommands))
         .replace(/\${plainTextError}/g, plainTextError)
