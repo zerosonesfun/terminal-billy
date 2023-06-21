@@ -193,11 +193,10 @@ function handleEmailCommand(message) {
     typeResponse('Message is too long. Please re-enter within 300 characters.\n');
   } else {
     messageBuffer = message;
-    var answer = prompt('What is 3+3+3?');
-    if (answer !== null && answer.trim() === '9') {
+    var answer = prompt('What is 3 + 3 + 3?');
+    if (parseInt(answer) === 9) {
       var email = prompt('Enter your email address:');
       if (validateEmail(email)) {
-        typeResponse('Sending email, please wait...\n');
         var data = new FormData();
         data.append('message', messageBuffer);
         data.append('email', email);
@@ -206,10 +205,15 @@ function handleEmailCommand(message) {
         typeResponse('Invalid email address. Please enter a valid email.\n');
       }
     } else {
-      typeResponse('Sorry, incorrect answer. Bye.\n');
+      typeResponse('Sorry, bot. Bye.\n');
       resetTerminal();
     }
   }
+}
+    
+function validateEmail(email) {
+  var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
 }
 
 function sendEmail(data) {
