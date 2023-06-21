@@ -189,22 +189,26 @@ function handleUserInput() {
   }
 
   function handleEmailCommand(message) {
-    if (message.length > 300) {
-      typeResponse('Message is too long. Please re-enter within 300 characters.\n');
+  if (message.length > 300) {
+    typeResponse('Message is too long. Please re-enter within 300 characters.\n');
+  } else {
+    messageBuffer = message;
+    var email = prompt('Enter your email address:');
+    if (validateEmail(email)) {
+      var data = new FormData();
+      data.append('message', messageBuffer);
+      data.append('email', email);
+      sendEmail(data);
     } else {
-      messageBuffer = message;
-      var answer = prompt('What is 3+3+3?');
-      if (parseInt(answer) === 9) {
-        var data = new FormData();
-        data.append('message', messageBuffer);
-        data.append('email', prompt('Enter your email address:'));
-        sendEmail(data);
-      } else {
-        typeResponse('Sorry, bot. Bye.\n');
-        resetTerminal();
-      }
+      typeResponse('Invalid email address. Please enter a valid email.\n');
     }
   }
+}
+
+function validateEmail(email) {
+  var regex = /\S+@\S+\.\S+/;
+  return regex.test(email);
+}
 
   function sendEmail(data) {
     fetch('/send_email.php', {
