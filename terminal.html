@@ -188,7 +188,7 @@ function handleUserInput() {
     emailMode = true;
   }
 
-  function handleEmailCommand(message) {
+function handleEmailCommand(message) {
   if (message.length > 300) {
     typeResponse('Message is too long. Please re-enter within 300 characters.\n');
   } else {
@@ -197,6 +197,7 @@ function handleUserInput() {
     if (answer !== null && answer.trim() === '9') {
       var email = prompt('Enter your email address:');
       if (validateEmail(email)) {
+        typeResponse('Sending email, please wait...\n');
         var data = new FormData();
         data.append('message', messageBuffer);
         data.append('email', email);
@@ -211,22 +212,28 @@ function handleUserInput() {
   }
 }
 
-
-  function sendEmail(data) {
-    fetch('/send_email.php', {
-        method: 'POST',
-        body: data
-      })
-      .then(function(response) {
-        typeResponse('Email sent successfully!\n');
-        resetTerminal();
-      })
-      .catch(function(error) {
-        typeResponse('An error occurred while sending the email.\n');
-        resetTerminal();
-      });
-  }
-
+function sendEmail(data) {
+  fetch('/send_email.php', {
+      method: 'POST',
+      body: data
+    })
+    .then(function(response) {
+      if (response.ok) {
+        return response.text();
+      } else {
+        throw new Error('An error occurred while sending the email.');
+      }
+    })
+    .then(function(responseText) {
+      typeResponse(responseText + '\n');
+      resetTerminal();
+    })
+    .catch(function(error) {
+      typeResponse('An error occurred while sending the email.\n');
+      resetTerminal();
+    });
+}
+    
   function resetTerminal() {
     setTimeout(function() {
       location.reload();
