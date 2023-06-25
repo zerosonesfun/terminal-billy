@@ -21,7 +21,7 @@ A command line interface for any website that anyone with very basic website cod
 2. If pasting into an existing page you may delete from `<html>` to `<body>` and delete `</body>` and `</html>` at the end.
 3. Replace the response verbiage you see throughout with your own.
 
-Or, use the generator to create a custom version more easily. The generator will provide the JavaScript. Paste it in between <script></script> tags. Above the JavaScript ensure you have the placeholder divs:
+Or, use the generator to create a custom version more easily. The generator will provide the JavaScript. Paste it in between <script></script> tags. Above the JavaScript ensure you have the placeholder div:
 
 ~~~
 <div class="terminal-container">
