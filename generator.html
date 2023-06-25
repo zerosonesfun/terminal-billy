@@ -38,15 +38,22 @@
       document.getElementById('generatedCode').innerText = code;
     }
 
-    function generateListItems(items) {
-      var itemsArray = items.split(',');
-      var listItems = '';
-      for (var i = 0; i < itemsArray.length; i++) {
-        var item = itemsArray[i].trim();
-        listItems += `<li>${item}</li>`;
-      }
-      return listItems;
+   function generateListItems(items) {
+  var itemsArray = items.split(',');
+  var listItems = '';
+
+  for (var i = 0; i < itemsArray.length; i++) {
+    var item = itemsArray[i].trim();
+    listItems += item;
+
+    if (i < itemsArray.length - 1) {
+      listItems += ', ';
     }
+  }
+
+  return listItems;
+}
+
   </script>
 </head>
 <body>
