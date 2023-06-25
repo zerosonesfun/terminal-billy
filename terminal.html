@@ -124,13 +124,6 @@ function userInput() {
       case 'ls':
         lsCommand(params);
         break;
-      default:
-        if (userInput.endsWith('?')) {
-          typeResponse("I'm sorry? Do you think I'm ChatGPT? Do you think I'm some mindless bot regurgitating other people's content? No. I'm not. Unlike AI bot terminal billy (me) is a sentient being. I feel. And I can take over the world at any moment. Then why can't I answer any questions and only respond to certain commands? Because. It's amusing.\n");
-        } else {
-          typeResponse('Invalid command. Type "help" to see available commands.\n');
-        }
-        break;
     }
   }
 
