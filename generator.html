@@ -192,32 +192,36 @@ function sendEmail(data) {
 // End of em command. The email command is a long one. It's not easy sending emails.
 // The who command.
 
-  function whoCommand(name) {
-   var lowercaseName = name.toLowerCase();
-    switch (lowercaseName) {
-    ${generateWhoCases(names, abouts)}
-      default:
-        typeResponse('Invalid name. Type "ls who" to see available names.\\n');
-        break;
+function whoCommand(name) {
+  var namesArray = names.split(',');
+  var aboutsArray = abouts.split(',');
+  var lowercaseName = name.toLowerCase();
+
+  for (var i = 0; i < namesArray.length; i++) {
+    var currentName = namesArray[i].trim().toLowerCase();
+    var currentAbout = aboutsArray[i].trim();
+
+    if (lowercaseName === currentName) {
+      typeResponse(currentAbout"\\n");
+      return;
     }
   }
+
+  typeResponse('Invalid name. Type "ls who" to see available names.\n');
+}
 
 // The list command. After "page slugs available:" list out page slugs that your visitors may redirect to. This was first created for a WordPress site which handles pretty URLs very well. You may need to experiment. Perhaps your page slugs will have to be /page.html or something like that. Also, if you changed any names above, then change them below as well.
 
   function lsCommand(param) {
-   var lowercaseParam = param.toLowerCase();
-     switch (lowercaseParam) {
-      case 'pages':
-        typeResponse('${generateListItems(pages)}\\n');
-        break;
-      case 'who':
-        typeResponse('Names available for the who command: ${generateListItems(names)}\\n');
-        break;
-      default:
-        typeResponse('Invalid command. Type "help" to see available commands.\\n');
-        break;
-    }
+  var lowercaseParam = param.toLowerCase();
+  if (lowercaseParam === "pages") {
+    typeResponse("Page slugs available: ${generateListItems(pages)}\\n");
+  } else if (lowercaseParam === "who") {
+    typeResponse("Names available for the who command: ${generateListItems(names)}\\n");
+  } else {
+    typeResponse('Invalid command. Type "help" to see available commands.\n');
   }
+}
 
 // The typing effect.
     
@@ -281,21 +285,6 @@ function sendEmail(data) {
       return listItems;
     }
 
-    function generateWhoCases(names, abouts) {
-      var namesArray = names.split(',');
-      var aboutsArray = abouts.split(',');
-      var cases = '';
-
-      for (var i = 0; i < namesArray.length; i++) {
-        var name = namesArray[i].trim();
-        var about = aboutsArray[i].trim();
-
-        cases += `case "${name}": typeResponse("${about}\\n"); break;
-      `;
-      }
-
-      return cases;
-    }
   </script>
   <style>
     body {
