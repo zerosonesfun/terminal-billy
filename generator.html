@@ -10,7 +10,7 @@
       var jokes = document.getElementById('jokes').value;
       var intro = document.getElementById('intro').value;
       var code = `
-      document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
   var terminalInput = document.querySelector('.terminal-input');
   var terminalOutput = document.querySelector('.terminal-output');
   var messageBuffer = "";
@@ -239,7 +239,7 @@ function sendEmail(data) {
 
 // The intro text.
     
-  typeResponse('Welcome to terminal billy! Type "help" to see available commands. ${intro}.\\n');
+  typeResponse('Welcome to terminal billy! Type "help" to see available commands. ${intro}\\n');
 });
       
       `;
@@ -328,7 +328,7 @@ function sendEmail(data) {
     <input type="text" id="jokes" name="jokes" value="Why don't scientists trust atoms?, What do you call a bear with no teeth?, Why did the scarecrow win an award?"><br>
 
     <label for="intro">Terminal Intro:</label><br>
-    <input type="text" id="intro" name="intro" value="This is a terminal emulator. Enjoy."><br>
+    <input type="text" id="intro" name="intro" value="This version of billy terminal was created using the generator tool."><br>
     <br><br>
     <button type="button" onclick="generateCode()">Generate Code</button>
   </form>
