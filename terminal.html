@@ -176,31 +176,31 @@ function userInput() {
     typeResponse(jokes[randomIndex] + '\n');
   }
 
-  function emailCommand() {
+function emailCommand(message) {
+  if (message) {
+    if (message.length > 300) {
+      typeResponse('Message is too long. Please re-enter within 300 characters.\n');
+    } else {
+      messageBuffer = message;
+      var answer = prompt('What is 3 + 3 + 3?');
+      if (parseInt(answer) === 9) {
+        var email = prompt('Enter your email address:');
+        if (validateEmail(email)) {
+          var data = new FormData();
+          data.append('message', messageBuffer);
+          data.append('email', email);
+          sendEmail(data);
+        } else {
+          typeResponse('Invalid email address. Please enter a valid email.\n');
+        }
+      } else {
+        typeResponse('Sorry, bot. Bye.\n');
+        resetTerminal();
+      }
+    }
+  } else {
     typeResponse('What shall I send the owner of this glorious website? (300 characters max)\n');
     emailMode = true;
-  }
-
-function emailCommand(message) {
-  if (message.length > 300) {
-    typeResponse('Message is too long. Please re-enter within 300 characters.\n');
-  } else {
-    messageBuffer = message;
-    var answer = prompt('What is 3 + 3 + 3?');
-    if (parseInt(answer) === 9) {
-      var email = prompt('Enter your email address:');
-      if (validateEmail(email)) {
-        var data = new FormData();
-        data.append('message', messageBuffer);
-        data.append('email', email);
-        sendEmail(data);
-      } else {
-        typeResponse('Invalid email address. Please enter a valid email.\n');
-      }
-    } else {
-      typeResponse('Sorry, bot. Bye.\n');
-      resetTerminal();
-    }
   }
 }
     
