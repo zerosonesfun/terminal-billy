@@ -30,7 +30,7 @@ Or, use the generator to create a custom version more easily. The generator will
 </div>
 ~~~
 
-Finally, to get the email working, edit and include the send_email.php in the proper spot on your server. Also, create an empty ratelimit.txt file in the same spot for some added protection.
+Finally, to get the email working, edit and include the send_email.php file in the proper spot on your server. Also, create an empty ratelimit.txt file in the same spot for some added protection.
 
 ---
 
