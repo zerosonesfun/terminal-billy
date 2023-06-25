@@ -193,6 +193,7 @@ function sendEmail(data) {
 // The who command.
 
   function whoCommand(name) {
+   var lowercaseName = name.toLowerCase();
     switch (name) {
     ${generateWhoCases(names, abouts)}
       default:
@@ -204,6 +205,7 @@ function sendEmail(data) {
 // The list command. After "page slugs available:" list out page slugs that your visitors may redirect to. This was first created for a WordPress site which handles pretty URLs very well. You may need to experiment. Perhaps your page slugs will have to be /page.html or something like that. Also, if you changed any names above, then change them below as well.
 
   function lsCommand(param) {
+   var lowercaseOption = option.toLowerCase();
     switch (param) {
       case 'pages':
         typeResponse('${generateListItems(pages)}\\n');
@@ -239,7 +241,7 @@ function sendEmail(data) {
 
 // The intro text.
     
-  typeResponse('Welcome to terminal billy! Type "help" to see available commands. ${intro}.\\n');
+  typeResponse('Welcome to terminal billy! Type "help" to see available commands. ${intro}\\n');
 });
       
       `;
@@ -288,7 +290,7 @@ function sendEmail(data) {
         var name = namesArray[i].trim();
         var about = aboutsArray[i].trim();
 
-        cases += `case "${name}": typeResponse("${about}\\\n"); break;
+        cases += `case "${name}": typeResponse("${about}\\n"); break;
       `;
       }
 
@@ -305,6 +307,9 @@ function sendEmail(data) {
     #generatedCode {
       overflow-wrap: break-word;
       word-wrap: break-word;
+    }
+    #codeContainer {
+      width: 350px;
     }
   </style>    
 </head>
@@ -331,6 +336,8 @@ function sendEmail(data) {
   </form>
 
   <h2>Copy and Paste this generated code within your HTML:</h2>
-  <textarea id="generatedCode" cols="100"></textarea>
+  <div id="codeContainer">
+  <pre id="generatedCode"></pre>
+  </div>
 </body>
 </html>
