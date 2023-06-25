@@ -306,6 +306,9 @@ function sendEmail(data) {
       overflow-wrap: break-word;
       word-wrap: break-word;
     }
+    #codeContainer {
+      width: 350px;
+    }
   </style>    
 </head>
 <body>
@@ -331,6 +334,8 @@ function sendEmail(data) {
   </form>
 
   <h2>Copy and Paste this generated code within your HTML:</h2>
-  <textarea id="generatedCode" cols="100"></textarea>
+  <div id="codeContainer">
+  <pre id="generatedCode"></pre>
+  </div>
 </body>
 </html>
