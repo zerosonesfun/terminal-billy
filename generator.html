@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>$b generator</title>
+  <title>$b Generator</title>
   <script>
     function generateCode() {
       var names = document.getElementById('names').value;
@@ -10,7 +9,240 @@
       var pages = document.getElementById('pages').value;
       var jokes = document.getElementById('jokes').value;
       var intro = document.getElementById('intro').value;
-      var code = `document.addEventListener("DOMContentLoaded",(function(){var e=document.querySelector(".terminal-input"),t=document.querySelector(".terminal-output"),n="",a=!1;function emailCommand(e){if(e)if(e.length>300)typeResponse("Message is too long. Please re-enter within 300 characters.\\n");else{n=e;var t=prompt("What is 3 + 3 + 3?");if(9===parseInt(t)){var o=prompt("Enter your email address:");if(function validateEmail(e){return/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)}(o)){var s=new FormData;s.append("message",n),s.append("email",o),function sendEmail(e){fetch("/send_email.php",{method:"POST",body:e}).then((function(e){if(e.ok)return e.text();throw new Error("An error occurred while sending the email.")})).then((function(e){typeResponse(e+"\\n"),resetTerminal()})).catch((function(e){typeResponse("An error occurred while sending the email.\\n"),resetTerminal()}))}(s)}else typeResponse("Invalid email address. Please enter a valid email.\\n")}else typeResponse("Sorry, bot. Bye.\\n"),resetTerminal()}else typeResponse("What shall I send the owner of this glorious website? (300 characters max)\\n"),a=!0}function resetTerminal(){setTimeout((function(){location.reload()}),2e3)}function typeResponse(e, about){var n=e.split(""),a=0;setTimeout((function(){var e=setInterval((function(){t.textContent+=n[a],++a===n.length&&(clearInterval(e),t.textContent+="\\n",t.scrollTop=t.scrollHeight)}),20)}),100)}e.addEventListener("keypress",(function(t){13===t.keyCode&&(t.preventDefault(),function userInput(){var t=e.value.trim();if(e.value="",t.endsWith("?"))return void typeResponse("I'm sorry? Do you think I'm ChatGPT? Do you think I'm some mindless bot regurgitating other people's content? No. I'm not. Unlike AI bots, terminal billy (me) is a sentient being. I feel. And I can take over the world at any moment. Then why can't I answer any questions and only respond to certain commands? Because. It's amusing. If you ask any questions I will simply repeat this. I don’t have time for questions.\\n");if(a)return void emailCommand(t);var n=t.split(" ")[0].toLowerCase(),o=t.substr(t.indexOf(" ")+1);if(!["cd","help","jk","em","abort","who","ls"].includes(n))return void typeResponse('Invalid command. Type "help" to see available commands.\\n');switch(n){case"cd":!function isPlainText(e){return/^[a-zA-Z0-9\s]+$/.test(e)}(o)?typeResponse("Invalid command. Page slug must be plain text.\\n"):function directoryCommand(e){window.location.href=window.location.origin+"/"+e}(o);break;case"help":!function helpCommand(){setTimeout((function(){typeResponse("Available commands:\\n")}),100),setTimeout((function(){typeResponse("cd [page-slug] - Go to a page\\n")}),1e3),setTimeout((function(){typeResponse("help - Show available commands\\n")}),2e3),setTimeout((function(){typeResponse("jk - Tell a joke\\n")}),3e3),setTimeout((function(){typeResponse("em - Send an email\\n")}),4e3),setTimeout((function(){typeResponse("abort - Refresh the page\\n")}),5e3),setTimeout((function(){typeResponse("who [name] - Get information about a person\\n")}),6e3),setTimeout((function(){typeResponse("ls pages - List available page slugs\\n")}),7e3),setTimeout((function(){typeResponse("ls who - List available names for the who command\\n")}),8e3)}();break;case"jk":!function jokeCommand(){var e=[${generateListItemsJokes(jokes)}],t=Math.floor(Math.random()*e.length);typeResponse(e[t]+"\\n")}();break;case"em":emailCommand();break;case"abort":location.reload();break;case"who":!function whoCommand(e){switch(e){${generateWhoCases(names, abouts)}}}(o);break;case"ls":!function lsCommand(e){switch(e){case"pages":typeResponse("Page slugs available: ${generateListItems(pages)}\\n");break;case"who":typeResponse("Names available for the who command: ${generateListItems(names)}\\n");break;default:typeResponse('Invalid command. Type "help" to see available commands.\\n')}}(o)}}())})),typeResponse('Welcome to terminal billy! Type "help" to see available commands. ${intro}\\n')}));`;
+      var code = `
+      document.addEventListener('DOMContentLoaded', function() {
+  var terminalInput = document.querySelector('.terminal-input');
+  var terminalOutput = document.querySelector('.terminal-output');
+  var messageBuffer = "";
+  var emailMode = false;
+    
+// If keyCode 13 (which is the enter key) then run the userInput function.
+    
+  terminalInput.addEventListener('keypress', function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      userInput();
+    }
+  });
+
+// The userInput function looks at what the user submits and does various things. It's the brains behind the operation.
+    
+function userInput() {
+  var userInput = terminalInput.value.trim();
+  terminalInput.value = '';
+
+// Just for fun, if any question is asked the terminal responds with the following.
+    
+  if (userInput.endsWith('?')) {
+    typeResponse("I'm sorry? Do you think I'm ChatGPT? Do you think I'm some mindless bot regurgitating other people's content? No. I'm not. Unlike AI bots, terminal billy (me) is a sentient being. I feel. And I can take over the world at any moment. Then why can't I answer any questions and only respond to certain commands? Because. It's amusing. If you ask any questions I will simply repeat this. I don’t have time for questions.\n");
+    return;
+  }
+
+ // Helps with the multi-step email process.
+    
+    if (emailMode) {
+      emailCommand(userInput);
+      return;
+    }
+    
+// Make sure case doesn't MaTtEr.
+    
+    var command = userInput.split(' ')[0].toLowerCase();
+    var params = userInput.substr(userInput.indexOf(' ') + 1);
+
+// Define the list of allowed commands.
+    
+    var allowedCommands = ['cd', 'help', 'jk', 'em', 'abort', 'who', 'ls'];
+
+    if (!allowedCommands.includes(command)) {
+      typeResponse('Invalid command. Type "help" to see available commands.\n');
+      return;
+    }
+
+// You know those allowed commands from above? Next to each "case" below, repeat the same ones. If you are a beginning coder I would leave most of these default ones alone.
+    
+    switch (command) {
+      case 'cd':
+        if (isPlainText(params)) {
+          directoryCommand(params);
+        } else {
+          typeResponse('Invalid command. Page slug must be plain text.\n');
+        }
+        break;
+      case 'help':
+        helpCommand();
+        break;
+      case 'jk':
+        jokeCommand();
+        break;
+      case 'em':
+        emailCommand();
+        break;
+      case 'abort':
+        location.reload();
+        break;
+      case 'who':
+        whoCommand(params);
+        break;
+      case 'ls':
+        lsCommand(params);
+        break;
+    }
+  }
+
+  function isPlainText(text) {
+    var regex = /^[a-zA-Z0-9\s]+$/;
+    return regex.test(text);
+  }
+
+ // The cd command.
+    
+  function directoryCommand(pageSlug) {
+    window.location.href = window.location.origin + '/' + pageSlug;
+  }
+
+// The help command.
+    
+  function helpCommand() {
+    setTimeout(function() { typeResponse('Available commands:\n'); }, 100);
+    setTimeout(function() { typeResponse('cd [page-slug] - Go to a page\n'); }, 1000);
+    setTimeout(function() { typeResponse('help - Show available commands\n'); }, 2000);
+    setTimeout(function() { typeResponse('jk - Tell a joke\n'); }, 3000);
+    setTimeout(function() { typeResponse('em - Send an email\n'); }, 4000);
+    setTimeout(function() { typeResponse('abort - Refresh the page\n'); }, 5000);
+    setTimeout(function() { typeResponse('who [name] - Get information about a person\n'); }, 6000);
+    setTimeout(function() { typeResponse('ls pages - List available page slugs\n'); }, 7000);
+    setTimeout(function() { typeResponse('ls who - List available names for the who command\n'); }, 8000);
+  }
+
+// The jk command.
+    
+  function jokeCommand() {
+    var jokes = [
+     ${generateListItemsJokes(items)}
+    ];
+
+    var randomIndex = Math.floor(Math.random() * jokes.length);
+    typeResponse(jokes[randomIndex] + '\n');
+  }
+
+// The em command.
+    
+function emailCommand(message) {
+  if (message) {
+    if (message.length > 300) {
+      typeResponse('Message is too long. Please re-enter within 300 characters.\n');
+    } else {
+      messageBuffer = message;
+      var answer = prompt('What is 3 + 3 + 3?');
+      if (parseInt(answer) === 9) {
+        var email = prompt('Enter your email address:');
+        if (validateEmail(email)) {
+          var data = new FormData();
+          data.append('message', messageBuffer);
+          data.append('email', email);
+          sendEmail(data);
+        } else {
+          typeResponse('Invalid email address. Please enter a valid email.\n');
+        }
+      } else {
+        typeResponse('Sorry, bot. Bye.\n');
+        resetTerminal();
+      }
+    }
+  } else {
+    typeResponse('What shall I send the owner of this glorious website? (300 characters max)\n');
+    emailMode = true;
+  }
+}
+    
+function validateEmail(email) {
+  var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
+
+function sendEmail(data) {
+  fetch('/send_email.php', {
+      method: 'POST',
+      body: data
+    })
+    .then(function(response) {
+      if (response.ok) {
+        return response.text();
+      } else {
+        throw new Error('An error occurred while sending the email.');
+      }
+    })
+    .then(function(responseText) {
+      typeResponse(responseText + '\n');
+      resetTerminal();
+    })
+    .catch(function(error) {
+      typeResponse('An error occurred while sending the email.\n');
+      resetTerminal();
+    });
+}
+    
+  function resetTerminal() {
+    setTimeout(function() {
+      location.reload();
+    }, 2000);
+  }
+
+// End of em command. The email command is a long one. It's not easy sending emails.
+// The who command.
+
+  function whoCommand(name) {
+    switch (name) {
+    ${generateWhoCases(names, abouts)}
+      default:
+        typeResponse('Invalid name. Type "ls who" to see available names.\n');
+        break;
+    }
+  }
+
+// The list command. After "page slugs available:" list out page slugs that your visitors may redirect to. This was first created for a WordPress site which handles pretty URLs very well. You may need to experiment. Perhaps your page slugs will have to be /page.html or something like that. Also, if you changed any names above, then change them below as well.
+
+  function lsCommand(param) {
+    switch (param) {
+      case 'pages':
+        typeResponse('${generateListItems(items)}\n');
+        break;
+      case 'who':
+        typeResponse('Names available for the who command: ${generateListItems(items)}\n');
+        break;
+      default:
+        typeResponse('Invalid command. Type "help" to see available commands.\n');
+        break;
+    }
+  }
+
+// The typing effect.
+    
+  function typeResponse(message) {
+    var characters = message.split('');
+    var index = 0;
+
+    setTimeout(function() {
+      var interval = setInterval(function() {
+        terminalOutput.textContent += characters[index];
+        index++;
+
+        if (index === characters.length) {
+          clearInterval(interval);
+          terminalOutput.textContent += '\n';
+          terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+      }, 20);
+    }, 100);
+  }
+
+// The intro text.
+    
+  typeResponse('Welcome to terminal billy! Type "help" to see available commands. ${intro}.\n');
+});
+      
+      `;
       document.getElementById('generatedCode').innerText = code;
     }
 
@@ -63,22 +295,21 @@
     }
   </script>
   <style>
-    #generatedCode {
-      max-width: 1000px;
-      overflow-wrap: break-word;
-      word-wrap: break-word;
-    }
     body {
-      margin: 20px;
       background-color: #000;
       color: #fff;
+      margin: 20px;
       font-family: monospace;
+    }
+    #generatedCode {
+      overflow-wrap: break-word;
+      word-wrap: break-word;
     }
   </style>    
 </head>
 <body>
   <h1>$b generator</h1>
-  <p>Generate a custom version of terminal billy. You will need some coding knowledge to get the email command working. Unless you don't need that command then carefully remove it.</p>
+
   <form>
     <label for="names">Names (comma separated):</label><br>
     <input type="text" id="names" name="names" value="John, Jane, Michael"><br>
@@ -93,12 +324,12 @@
     <input type="text" id="jokes" name="jokes" value="Why don't scientists trust atoms?, What do you call a bear with no teeth?, Why did the scarecrow win an award?"><br>
 
     <label for="intro">Terminal Intro:</label><br>
-    <input type="text" id="intro" name="intro" value="Hello! This is a terminal emulator. Enjoy your time here."><br>
+    <input type="text" id="intro" name="intro" value="This is a terminal emulator. Enjoy."><br>
 
     <button type="button" onclick="generateCode()">Generate Code</button>
   </form>
 
-  <h2>Generated Code:</h2>
-  <textarea id="generatedCode"></textarea>
+  <h2>Copy and Paste this generated code within your HTML:</h2>
+  <textarea id="generatedCode" cols="10"></textarea>
 </body>
 </html>
