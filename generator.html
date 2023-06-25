@@ -17,40 +17,39 @@ document.addEventListener("DOMContentLoaded",(function(){var e=document.querySel
       document.getElementById('generatedCode').innerText = code;
     }
 
-   function generateListItems(items) {
-  var itemsArray = items.split(',');
-  var listItems = '';
+    function generateListItems(items) {
+      var itemsArray = items.split(',');
+      var listItems = '';
 
-  for (var i = 0; i < itemsArray.length; i++) {
-    var item = itemsArray[i].trim();
-    listItems += item;
+      for (var i = 0; i < itemsArray.length; i++) {
+        var item = itemsArray[i].trim();
+        listItems += item;
 
-    if (i < itemsArray.length - 1) {
-      listItems += ', ';
+        if (i < itemsArray.length - 1) {
+          listItems += ', ';
+        }
+      }
+
+      return listItems;
     }
-  }
 
-  return listItems;
-}
+    function generateListItemsJokes(items) {
+      var itemsArray = items.split(',');
+      var listItems = '';
 
-function generateListItemsJokes(items) {
-  var itemsArray = items.split(',');
-  var listItems = '';
+      for (var i = 0; i < itemsArray.length; i++) {
+        var item = itemsArray[i].trim();
+        var quotedItem = '"' + item + '"';
+        listItems += quotedItem;
 
-  for (var i = 0; i < itemsArray.length; i++) {
-    var item = itemsArray[i].trim();
-    var quotedItem = '"' + item + '"';
-    listItems += quotedItem;
+        if (i < itemsArray.length - 1) {
+          listItems += ', ';
+        }
+      }
 
-    if (i < itemsArray.length - 1) {
-      listItems += ', ';
+      return listItems;
     }
-  }
-
-  return listItems;
-}
-
-</script>
+  </script>
 </head>
 <body>
   <h1>Code Generator</h1>
