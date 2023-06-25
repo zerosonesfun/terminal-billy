@@ -1,1 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Billy Wilcosky">
+    <meta name="license" content="GNUv3">
+    <meta name="description" content="Terminal Billy is the fun and nerdy way to interact with websites.">
+    <meta name="keywords" content="command line, terminal, interactive, navigation">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Terminal Billy - Fun and Nerdy Interaction">
+    <meta property="og:description" content="Terminal Billy is the fun and nerdy way to interact with websites.">
+    <title>$b</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    
+<!-- Unless creating a brand new page, start copying the code here. Although having styles after the body tag is not traditionally proper, it works and helps ensure things look OK for beginners. -->
+    
+<style>
+.terminal-input {
+    background: [[bk-color]];
+    border: none;
+    font-size: inherit;
+    color: [[text-color]];
+    font-family: monospace;
+}
 
+.terminal-container {
+    color: [[text-color]];
+}
+
+.terminal-input:focus{
+    outline: none;
+}
+
+.terminal-output {
+  white-space: pre-wrap;
+}
+
+.typing::after {
+  content: "";
+  animation: typing 1s steps(40, end);
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+</style>
+
+<!-- The container where everything appears. -->
+
+<div class="terminal-container">
+  <pre class="terminal-output"></pre>
+  $b <input type="text" class="terminal-input" autofocus>
+</div>
+
+<!-- End of the container. -->
+    
+<!-- Beginning of JavaScript. The addEventListener is how the code knows where to look for commands and where to print text. -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var terminalInput = document.querySelector('.terminal-input');
+  var terminalOutput = document.querySelector('.terminal-output');
+  var messageBuffer = "";
+  var emailMode = false;
+    
+// If keyCode 13 (which is the enter key) then run the userInput function.
+    
+  terminalInput.addEventListener('keypress', function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      userInput();
+    }
+  });
+
+// The userInput function looks at what the user submits and does various things. It's the brains behind the operation.
+    
+function userInput() {
+  var userInput = terminalInput.value.trim();
+  terminalInput.value = '';
+
+// Just for fun, if any question is asked the terminal responds with the following.
+    
+  if (userInput.endsWith('?')) {
+    typeResponse("[[answer-to-all-questions]]\n");
+    return;
+  }
+
+ // Helps with the multi-step email process.
+    
+    if (emailMode) {
+      emailCommand(userInput);
+      return;
+    }
+    
+// Make sure case doesn't MaTtEr.
+    
+    var command = userInput.split(' ')[0].toLowerCase();
+    var params = userInput.substr(userInput.indexOf(' ') + 1);
+
+// Define the list of allowed commands.
+    
+    var allowedCommands = ['cd', 'help', 'jk', 'em', 'abort', 'who', 'ls'];
+
+    if (!allowedCommands.includes(command)) {
+      typeResponse('Invalid command. Type "help" to see available commands.\n');
+      return;
+    }
+
+// You know those allowed commands from above? Next to each "case" below, repeat the same ones. If you are a beginning coder I would leave most of these default ones alone.
+    
+    switch (command) {
+      case 'cd':
+        if (isPlainText(params)) {
+          directoryCommand(params);
+        } else {
+          typeResponse('Invalid command. Page slug must be plain text.\n');
+        }
+        break;
+      case 'help':
+        helpCommand();
+        break;
+      case 'jk':
+        jokeCommand();
+        break;
+      case 'em':
+        emailCommand();
+        break;
+      case 'abort':
+        location.reload();
+        break;
+      case 'who':
+        whoCommand(params);
+        break;
+      case 'ls':
+        lsCommand(params);
+        break;
+    }
+  }
+
+  function isPlainText(text) {
+    var regex = /^[a-zA-Z0-9\s]+$/;
+    return regex.test(text);
+  }
+
+ // The cd command.
+    
+  function directoryCommand(pageSlug) {
+    window.location.href = window.location.origin + '/' + pageSlug;
+  }
+
+// The help command.
+    
+  function helpCommand() {
+    setTimeout(function() { typeResponse('Available commands:\n'); }, 100);
+    setTimeout(function() { typeResponse('cd [page-slug] - Go to a page\n'); }, 1000);
+    setTimeout(function() { typeResponse('help - Show available commands\n'); }, 2000);
+    setTimeout(function() { typeResponse('jk - Tell a joke\n'); }, 3000);
+    setTimeout(function() { typeResponse('em - Send an email\n'); }, 4000);
+    setTimeout(function() { typeResponse('abort - Refresh the page\n'); }, 5000);
+    setTimeout(function() { typeResponse('who [name] - Get information about a person\n'); }, 6000);
+    setTimeout(function() { typeResponse('ls pages - List available page slugs\n'); }, 7000);
+    setTimeout(function() { typeResponse('ls who - List available names for the who command\n'); }, 8000);
+  }
+
+// The jk command.
+    
+  function jokeCommand() {
+    var jokes = [
+      'I changed all my passwords to Kenny. Now all I have are Kenny Loggins.',
+      'Why don’t skeletons fight each other? They don’t have the guts!',
+      'Why don’t scientists trust atoms? Because they make up everything!',
+      'I used to play piano by ear, but now I use my hands.',
+      'Why did the scarecrow win an award? Because he was outstanding in his field!',
+      'Did you hear about the mathematician who’s afraid of negative numbers? He will stop at nothing to avoid them!',
+      'Why don’t eggs tell jokes? Because they might crack up!',
+      'What do you call fake spaghetti? An impasta!',
+      'Why don’t scientists trust atoms? Because they make up everything!',
+      'What did one wall say to the other wall? I’ll meet you at the corner!',
+      'I told my wife she should embrace her mistakes. She hugged me.',
+      'Why don’t skeletons fight each other? They don’t have the guts!',
+      'How do you catch a squirrel? Climb a tree and act like a nut!',
+      'What did the grape say when it got stepped on? Nothing, it just let out a little wine!',
+      'I’m reading a book about anti-gravity. It’s impossible to put down!',
+      'Why don’t scientists trust atoms? Because they make up everything!',
+      'How do you organize a space party? You planet!',
+      'I told my wife she should embrace her mistakes. She hugged me.',
+      'Why don’t skeletons fight each other? They don’t have the guts!',
+      'Why did the math book look sad? Because it had too many problems.',
+    ];
+
+    var randomIndex = Math.floor(Math.random() * jokes.length);
+    typeResponse(jokes[randomIndex] + '\n');
+  }
+
+// The em command.
+    
+function emailCommand(message) {
+  if (message) {
+    if (message.length > 300) {
+      typeResponse('Message is too long. Please re-enter within 300 characters.\n');
+    } else {
+      messageBuffer = message;
+      var answer = prompt('What is 3 + 3 + 3?');
+      if (parseInt(answer) === 9) {
+        var email = prompt('Enter your email address:');
+        if (validateEmail(email)) {
+          var data = new FormData();
+          data.append('message', messageBuffer);
+          data.append('email', email);
+          sendEmail(data);
+        } else {
+          typeResponse('Invalid email address. Please enter a valid email.\n');
+        }
+      } else {
+        typeResponse('Sorry, bot. Bye.\n');
+        resetTerminal();
+      }
+    }
+  } else {
+    typeResponse('What shall I send the owner of this glorious website? (300 characters max)\n');
+    emailMode = true;
+  }
+}
+    
+function validateEmail(email) {
+  var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(email);
+}
+
+function sendEmail(data) {
+  fetch('/send_email.php', {
+      method: 'POST',
+      body: data
+    })
+    .then(function(response) {
+      if (response.ok) {
+        return response.text();
+      } else {
+        throw new Error('An error occurred while sending the email.');
+      }
+    })
+    .then(function(responseText) {
+      typeResponse(responseText + '\n');
+      resetTerminal();
+    })
+    .catch(function(error) {
+      typeResponse('An error occurred while sending the email.\n');
+      resetTerminal();
+    });
+}
+    
+  function resetTerminal() {
+    setTimeout(function() {
+      location.reload();
+    }, 2000);
+  }
+
+// End of em command. The email command is a long one. It's not easy sending emails.
+// The who command.
+
+  function whoCommand(name) {
+    switch (name) {
+      case '[[name 1]]':
+        typeResponse('[[name 1 descriptiom]]\n');
+        break;
+    }
+  }
+
+// The list command. After "page slugs available:" list out page slugs that your visitors may redirect to. This was first created for a WordPress site which handles pretty URLs very well. You may need to experiment. Perhaps your page slugs will have to be /page.html or something like that. Also, if you changed any names above, then change them below as well.
+
+  function lsCommand(param) {
+    switch (param) {
+      case 'pages':
+        typeResponse('Page slugs available: [[comma separated page sluds]]\n');
+        break;
+      case 'who':
+        typeResponse('Names available for the who command: [[comma separated names available]]\n');
+        break;
+      default:
+        typeResponse('Invalid command. Type "help" to see available commands.\n');
+        break;
+    }
+  }
+
+// The typing effect.
+    
+  function typeResponse(message) {
+    var characters = message.split('');
+    var index = 0;
+
+    setTimeout(function() {
+      var interval = setInterval(function() {
+        terminalOutput.textContent += characters[index];
+        index++;
+
+        if (index === characters.length) {
+          clearInterval(interval);
+          terminalOutput.textContent += '\n';
+          terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+      }, 20);
+    }, 100);
+  }
+
+// The intro text.
+    
+  typeResponse('Welcome to terminal billy! Type "help" to see available commands. This is version 1.0. To contribute look for zerosonesfun/terminal-billy on GitHub.\n');
+});
+</script>
+
+<!-- Stop copying here if pasting the code into an existing page. But, if creating a brand new page (html file) then you will need the closing body and html tags below. -->
+
+</body>
+</html>
