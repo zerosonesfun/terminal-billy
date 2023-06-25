@@ -61,9 +61,9 @@ if (!$email) {
 $email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
 
 // Set the email parameters
-$to = 'wilcosky@gmail.com'; // Replace with the recipient's email address
+$to = 'you@invalidemail.com'; // Replace with the recipient's email address
 $subject = 'A note from $b'; // Replace with the email subject
-$headers = 'From: billy@wilcosky.com' . "\r\n" .
+$headers = 'From: noone@invalidemail.com' . "\r\n" .
     'Reply-To: ' . $email . "\r\n" .
     'Content-Type: text/plain; charset=UTF-8' . "\r\n";
 
