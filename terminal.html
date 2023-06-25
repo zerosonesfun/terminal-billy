@@ -70,11 +70,11 @@ document.addEventListener('DOMContentLoaded', function() {
   terminalInput.addEventListener('keypress', function(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
-      handleUserInput();
+      userInput();
     }
   });
 
-function handleUserInput() {
+function userInput() {
   var userInput = terminalInput.value.trim();
   terminalInput.value = '';
 
@@ -83,7 +83,7 @@ function handleUserInput() {
     return;
   }
     if (emailMode) {
-      handleEmailCommand(userInput);
+      emailCommand(userInput);
       return;
     }
 
@@ -101,28 +101,28 @@ function handleUserInput() {
     switch (command) {
       case 'cd':
         if (isPlainText(params)) {
-          goToPage(params);
+          directoryCommand(params);
         } else {
           typeResponse('Invalid command. Page slug must be plain text.\n');
         }
         break;
       case 'help':
-        showHelp();
+        helpCommand();
         break;
       case 'jk':
-        tellJoke();
+        jokeCommand();
         break;
       case 'em':
-        startEmail();
+        emailCommand();
         break;
       case 'abort':
         location.reload();
         break;
       case 'who':
-        handleWhoCommand(params);
+        whoCommand(params);
         break;
       case 'ls':
-        handleLsCommand(params);
+        lsCommand(params);
         break;
       default:
         if (userInput.endsWith('?')) {
@@ -139,11 +139,11 @@ function handleUserInput() {
     return regex.test(text);
   }
 
-  function goToPage(pageSlug) {
+  function directoryCommand(pageSlug) {
     window.location.href = window.location.origin + '/' + pageSlug;
   }
 
-  function showHelp() {
+  function helpCommand() {
     setTimeout(function() { typeResponse('Available commands:\n'); }, 100);
     setTimeout(function() { typeResponse('cd [page-slug] - Go to a page\n'); }, 1000);
     setTimeout(function() { typeResponse('help - Show available commands\n'); }, 2000);
@@ -155,7 +155,7 @@ function handleUserInput() {
     setTimeout(function() { typeResponse('ls who - List available names for the who command\n'); }, 8000);
   }
 
-  function tellJoke() {
+  function jokeCommand() {
     var jokes = [
       'I changed all my passwords to Kenny. Now all I have are Kenny Loggins.',
       'Why don’t skeletons fight each other? They don’t have the guts!',
@@ -183,12 +183,12 @@ function handleUserInput() {
     typeResponse(jokes[randomIndex] + '\n');
   }
 
-  function startEmail() {
+  function emailCommand() {
     typeResponse('What shall I send the owner of this glorious website? (300 characters max)\n');
     emailMode = true;
   }
 
-function handleEmailCommand(message) {
+function emailCommand(message) {
   if (message.length > 300) {
     typeResponse('Message is too long. Please re-enter within 300 characters.\n');
   } else {
@@ -244,7 +244,7 @@ function sendEmail(data) {
     }, 2000);
   }
 
-  function handleWhoCommand(name) {
+  function whoCommand(name) {
     switch (name) {
       case 'allison':
         typeResponse('Allison is a talented and passionate individual who does most everything for Billy. Billy is married to Allison and they have two children. Allison enjoys pop culture, books, movies, nerdy things, and chocolate.\n');
@@ -267,10 +267,10 @@ function sendEmail(data) {
     }
   }
 
-  function handleLsCommand(param) {
+  function lsCommand(param) {
     switch (param) {
       case 'pages':
-        typeResponse('Page slugs available: activity, explore, music, code, visual-arts, services, wp-directory, contact\n');
+        typeResponse('Page slugs available: activity, explore, music, code, visual-arts, services, wordpress-blogs, contact\n');
         break;
       case 'who':
         typeResponse('Names available for the who command: allison, finn, hannah, billy, infinite third\n');
@@ -299,7 +299,7 @@ function sendEmail(data) {
     }, 100);
   }
 
-  typeResponse('Welcome to terminal billy! Type "help" to see available commands. This is version 0.2. To contribute look for zerosonesfun/terminal-billy on GitHub.\n');
+  typeResponse('Welcome to terminal billy! Type "help" to see available commands. This is version 0.4. To contribute look for zerosonesfun/terminal-billy on GitHub.\n');
 });
 </script>
   
