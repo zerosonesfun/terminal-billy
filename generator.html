@@ -119,7 +119,7 @@ function userInput() {
     
   function jokeCommand() {
     var jokes = [
-     ${generateListItemsJokes(items)}
+     ${generateListItemsJokes(jokes)}
     ];
 
     var randomIndex = Math.floor(Math.random() * jokes.length);
@@ -206,10 +206,10 @@ function sendEmail(data) {
   function lsCommand(param) {
     switch (param) {
       case 'pages':
-        typeResponse('${generateListItems(items)}\n');
+        typeResponse('${generateListItems(pages)}\n');
         break;
       case 'who':
-        typeResponse('Names available for the who command: ${generateListItems(items)}\n');
+        typeResponse('Names available for the who command: ${generateListItems(names)}\n');
         break;
       default:
         typeResponse('Invalid command. Type "help" to see available commands.\n');
