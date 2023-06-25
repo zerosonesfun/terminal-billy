@@ -34,7 +34,7 @@ function userInput() {
 // Just for fun, if any question is asked the terminal responds with the following.
     
   if (userInput.endsWith('?')) {
-    typeResponse("I'm sorry? Do you think I'm ChatGPT? Do you think I'm some mindless bot regurgitating other people's content? No. I'm not. Unlike AI bots, terminal billy (me) is a sentient being. I feel. And I can take over the world at any moment. Then why can't I answer any questions and only respond to certain commands? Because. It's amusing. If you ask any questions I will simply repeat this. I don’t have time for questions.\n");
+    typeResponse("I'm sorry? Do you think I'm ChatGPT? Do you think I'm some mindless bot regurgitating other people's content? No. I'm not. Unlike AI bots, terminal billy (me) is a sentient being. I feel. And I can take over the world at any moment. Then why can't I answer any questions and only respond to certain commands? Because. It's amusing. If you ask any questions I will simply repeat this. I don’t have time for questions.\\n");
     return;
   }
 
@@ -55,7 +55,7 @@ function userInput() {
     var allowedCommands = ['cd', 'help', 'jk', 'em', 'abort', 'who', 'ls'];
 
     if (!allowedCommands.includes(command)) {
-      typeResponse('Invalid command. Type "help" to see available commands.\n');
+      typeResponse('Invalid command. Type "help" to see available commands.\\n');
       return;
     }
 
@@ -66,7 +66,7 @@ function userInput() {
         if (isPlainText(params)) {
           directoryCommand(params);
         } else {
-          typeResponse('Invalid command. Page slug must be plain text.\n');
+          typeResponse('Invalid command. Page slug must be plain text.\\n');
         }
         break;
       case 'help':
@@ -104,15 +104,15 @@ function userInput() {
 // The help command.
     
   function helpCommand() {
-    setTimeout(function() { typeResponse('Available commands:\n'); }, 100);
-    setTimeout(function() { typeResponse('cd [page-slug] - Go to a page\n'); }, 1000);
-    setTimeout(function() { typeResponse('help - Show available commands\n'); }, 2000);
-    setTimeout(function() { typeResponse('jk - Tell a joke\n'); }, 3000);
-    setTimeout(function() { typeResponse('em - Send an email\n'); }, 4000);
-    setTimeout(function() { typeResponse('abort - Refresh the page\n'); }, 5000);
-    setTimeout(function() { typeResponse('who [name] - Get information about a person\n'); }, 6000);
-    setTimeout(function() { typeResponse('ls pages - List available page slugs\n'); }, 7000);
-    setTimeout(function() { typeResponse('ls who - List available names for the who command\n'); }, 8000);
+    setTimeout(function() { typeResponse('Available commands:\\n'); }, 100);
+    setTimeout(function() { typeResponse('cd [page-slug] - Go to a page\\n'); }, 1000);
+    setTimeout(function() { typeResponse('help - Show available commands\\n'); }, 2000);
+    setTimeout(function() { typeResponse('jk - Tell a joke\\n'); }, 3000);
+    setTimeout(function() { typeResponse('em - Send an email\\n'); }, 4000);
+    setTimeout(function() { typeResponse('abort - Refresh the page\\n'); }, 5000);
+    setTimeout(function() { typeResponse('who [name] - Get information about a person\\n'); }, 6000);
+    setTimeout(function() { typeResponse('ls pages - List available page slugs\\n'); }, 7000);
+    setTimeout(function() { typeResponse('ls who - List available names for the who command\\n'); }, 8000);
   }
 
 // The jk command.
@@ -123,7 +123,7 @@ function userInput() {
     ];
 
     var randomIndex = Math.floor(Math.random() * jokes.length);
-    typeResponse(jokes[randomIndex] + '\n');
+    typeResponse(jokes[randomIndex] + '\\n');
   }
 
 // The em command.
@@ -131,7 +131,7 @@ function userInput() {
 function emailCommand(message) {
   if (message) {
     if (message.length > 300) {
-      typeResponse('Message is too long. Please re-enter within 300 characters.\n');
+      typeResponse('Message is too long. Please re-enter within 300 characters.\\n');
     } else {
       messageBuffer = message;
       var answer = prompt('What is 3 + 3 + 3?');
@@ -143,15 +143,15 @@ function emailCommand(message) {
           data.append('email', email);
           sendEmail(data);
         } else {
-          typeResponse('Invalid email address. Please enter a valid email.\n');
+          typeResponse('Invalid email address. Please enter a valid email.\\n');
         }
       } else {
-        typeResponse('Sorry, bot. Bye.\n');
+        typeResponse('Sorry, bot. Bye.\\n');
         resetTerminal();
       }
     }
   } else {
-    typeResponse('What shall I send the owner of this glorious website? (300 characters max)\n');
+    typeResponse('What shall I send the owner of this glorious website? (300 characters max)\\n');
     emailMode = true;
   }
 }
@@ -174,11 +174,11 @@ function sendEmail(data) {
       }
     })
     .then(function(responseText) {
-      typeResponse(responseText + '\n');
+      typeResponse(responseText + '\\n');
       resetTerminal();
     })
     .catch(function(error) {
-      typeResponse('An error occurred while sending the email.\n');
+      typeResponse('An error occurred while sending the email.\\n');
       resetTerminal();
     });
 }
@@ -196,7 +196,7 @@ function sendEmail(data) {
     switch (name) {
     ${generateWhoCases(names, abouts)}
       default:
-        typeResponse('Invalid name. Type "ls who" to see available names.\n');
+        typeResponse('Invalid name. Type "ls who" to see available names.\\n');
         break;
     }
   }
@@ -206,13 +206,13 @@ function sendEmail(data) {
   function lsCommand(param) {
     switch (param) {
       case 'pages':
-        typeResponse('${generateListItems(pages)}\n');
+        typeResponse('${generateListItems(pages)}\\n');
         break;
       case 'who':
-        typeResponse('Names available for the who command: ${generateListItems(names)}\n');
+        typeResponse('Names available for the who command: ${generateListItems(names)}\\n');
         break;
       default:
-        typeResponse('Invalid command. Type "help" to see available commands.\n');
+        typeResponse('Invalid command. Type "help" to see available commands.\\n');
         break;
     }
   }
@@ -230,7 +230,7 @@ function sendEmail(data) {
 
         if (index === characters.length) {
           clearInterval(interval);
-          terminalOutput.textContent += '\n';
+          terminalOutput.textContent += '\\n';
           terminalOutput.scrollTop = terminalOutput.scrollHeight;
         }
       }, 20);
@@ -239,7 +239,7 @@ function sendEmail(data) {
 
 // The intro text.
     
-  typeResponse('Welcome to terminal billy! Type "help" to see available commands. ${intro}.\n');
+  typeResponse('Welcome to terminal billy! Type "help" to see available commands. ${intro}.\\n');
 });
       
       `;
@@ -288,7 +288,8 @@ function sendEmail(data) {
         var name = namesArray[i].trim();
         var about = aboutsArray[i].trim();
 
-        cases += `case "${name}": typeResponse("${about}\\n"); break;`;
+        cases += `case "${name}": typeResponse("${about}\\\n"); break;
+      `;
       }
 
       return cases;
