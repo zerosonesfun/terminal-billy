@@ -192,36 +192,30 @@ function sendEmail(data) {
 // End of em command. The email command is a long one. It's not easy sending emails.
 // The who command.
 
-function whoCommand(name) {
-  var namesArray = names.split(',');
-  var aboutsArray = abouts.split(',');
-  var lowercaseName = name.toLowerCase();
-
-  for (var i = 0; i < namesArray.length; i++) {
-    var currentName = namesArray[i].trim().toLowerCase();
-    var currentAbout = aboutsArray[i].trim();
-
-    if (lowercaseName === currentName) {
-      typeResponse(currentAbout"\\n");
-      return;
+  function whoCommand(name) {
+    switch (name) {
+    ${generateWhoCases(names, abouts)}
+      default:
+        typeResponse('Invalid name. Type "ls who" to see available names.\\n');
+        break;
     }
   }
-
-  typeResponse('Invalid name. Type "ls who" to see available names.\n');
-}
 
 // The list command. After "page slugs available:" list out page slugs that your visitors may redirect to. This was first created for a WordPress site which handles pretty URLs very well. You may need to experiment. Perhaps your page slugs will have to be /page.html or something like that. Also, if you changed any names above, then change them below as well.
 
   function lsCommand(param) {
-  var lowercaseParam = param.toLowerCase();
-  if (lowercaseParam === "pages") {
-    typeResponse("Page slugs available: ${generateListItems(pages)}\\n");
-  } else if (lowercaseParam === "who") {
-    typeResponse("Names available for the who command: ${generateListItems(names)}\\n");
-  } else {
-    typeResponse('Invalid command. Type "help" to see available commands.\n');
+    switch (param) {
+      case 'pages':
+        typeResponse('${generateListItems(pages)}\\n');
+        break;
+      case 'who':
+        typeResponse('Names available for the who command: ${generateListItems(names)}\\n');
+        break;
+      default:
+        typeResponse('Invalid command. Type "help" to see available commands.\\n');
+        break;
+    }
   }
-}
 
 // The typing effect.
     
@@ -245,7 +239,7 @@ function whoCommand(name) {
 
 // The intro text.
     
-  typeResponse('Welcome to terminal billy! Type "help" to see available commands. ${intro}\\n');
+  typeResponse('Welcome to terminal billy! Type "help" to see available commands. ${intro}.\\n');
 });
       
       `;
@@ -285,6 +279,21 @@ function whoCommand(name) {
       return listItems;
     }
 
+    function generateWhoCases(names, abouts) {
+      var namesArray = names.split(',');
+      var aboutsArray = abouts.split(',');
+      var cases = '';
+
+      for (var i = 0; i < namesArray.length; i++) {
+        var name = namesArray[i].trim();
+        var about = aboutsArray[i].trim();
+
+        cases += `case "${name}": typeResponse("${about}\\\n"); break;
+      `;
+      }
+
+      return cases;
+    }
   </script>
   <style>
     body {
@@ -296,9 +305,6 @@ function whoCommand(name) {
     #generatedCode {
       overflow-wrap: break-word;
       word-wrap: break-word;
-    }
-    #codeContainer {
-      width: 350px;
     }
   </style>    
 </head>
@@ -325,8 +331,6 @@ function whoCommand(name) {
   </form>
 
   <h2>Copy and Paste this generated code within your HTML:</h2>
-  <div id="codeContainer">
-  <pre id="generatedCode"></pre>
-  </div>
+  <textarea id="generatedCode" cols="100"></textarea>
 </body>
 </html>
