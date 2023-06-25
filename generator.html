@@ -288,7 +288,7 @@ function sendEmail(data) {
         var name = namesArray[i].trim();
         var about = aboutsArray[i].trim();
 
-        cases += `case "${name}": typeResponse("${about}\\\n"); break;
+        cases += `case "${name}": typeResponse("${about}\\n"); break;
       `;
       }
 
