@@ -194,7 +194,7 @@ function sendEmail(data) {
 
   function whoCommand(name) {
    var lowercaseName = name.toLowerCase();
-    switch (name) {
+    switch (lowercaseName) {
     ${generateWhoCases(names, abouts)}
       default:
         typeResponse('Invalid name. Type "ls who" to see available names.\\n');
@@ -205,8 +205,8 @@ function sendEmail(data) {
 // The list command. After "page slugs available:" list out page slugs that your visitors may redirect to. This was first created for a WordPress site which handles pretty URLs very well. You may need to experiment. Perhaps your page slugs will have to be /page.html or something like that. Also, if you changed any names above, then change them below as well.
 
   function lsCommand(param) {
-   var lowercaseOption = option.toLowerCase();
-    switch (param) {
+   var lowercaseParam = param.toLowerCase();
+     switch (lowercaseParam) {
       case 'pages':
         typeResponse('${generateListItems(pages)}\\n');
         break;
