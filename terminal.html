@@ -30,25 +30,24 @@
     font-size: inherit;
     color: inherit;
     font-family: monospace;
+    width: 100%;
 }
-
+.terminal-input-container {
+    white-space: nowrap;
+}
 .terminal-container {
     color: #fff;
 }
-
 .terminal-input:focus{
     outline: none;
 }
-
 .terminal-output {
   white-space: pre-wrap;
 }
-
 .typing::after {
   content: "";
   animation: typing 1s steps(40, end);
 }
-
 @keyframes typing {
   from {
     width: 0;
