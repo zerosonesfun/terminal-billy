@@ -11,11 +11,17 @@
       var jokes = document.getElementById('jokes').value;
       var intro = document.getElementById('intro').value;
       var code = `
+  // Let's get it started in here.
   document.addEventListener('DOMContentLoaded', function() {
   var terminalInput = document.querySelector('.terminal-input');
   var terminalOutput = document.querySelector('.terminal-output');
   var messageBuffer = "";
   var emailMode = false;
+
+// Ensure the input field gets the focus it deserves.	
+ setTimeout(function() {
+    terminalInput.focus();
+  }, 3000);
     
 // If keyCode 13 (which is the enter key) then run the userInput function.
     
@@ -34,7 +40,7 @@ function userInput() {
 
 // Just for fun, if any question is asked the terminal responds with the following.
     
-  if (userInput.endsWith('?')) {
+  if (userInput.endsWith('??')) {
     typeResponse("I'm sorry? Do you think I'm ChatGPT? Do you think I'm some mindless bot regurgitating other people's content? No. I'm not. Unlike AI bots, terminal billy (me) is a sentient being. I feel. And I can take over the world at any moment. Then why can't I answer any questions and only respond to certain commands? Because. It's amusing. If you ask any questions I will simply repeat this. I don’t have time for questions.\\n");
     return;
   }
