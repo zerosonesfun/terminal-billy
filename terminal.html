@@ -82,57 +82,58 @@
 <!-- Beginning of JavaScript. The addEventListener is how the code knows where to look for commands and where to print text. -->
 
 <script>
+var items=document.querySelectorAll(".wp-block-post");
+items.forEach(function(item){
+  item.addEventListener("click",function(ev){
+     var link=item.getElementsByTagName("a")[0];
+     link.click();
+  })
+});
+</script>
+<script>
+// Let's get it started in here.    
 document.addEventListener('DOMContentLoaded', function() {
   var terminalInput = document.querySelector('.terminal-input');
   var terminalOutput = document.querySelector('.terminal-output');
   var messageBuffer = "";
   var emailMode = false;
     
+// Ensure the input field gets the focus it deserves.	
+ setTimeout(function() {
+    terminalInput.focus();
+  }, 3000);
+	
 // If keyCode 13 (which is the enter key) then run the userInput function.
-    
   terminalInput.addEventListener('keypress', function(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
       userInput();
     }
   });
-
 // The userInput function looks at what the user submits and does various things. It's the brains behind the operation.
-    
 function userInput() {
   var userInput = terminalInput.value.trim();
   terminalInput.value = '';
-
 // Just for fun, if any question is asked the terminal responds with the following.
-    
-  if (userInput.endsWith('?')) {
+  if (userInput.endsWith('??')) {
     typeResponse("I'm sorry? Do you think I'm ChatGPT? Do you think I'm some mindless bot regurgitating other people's content? No. I'm not. Unlike AI bots, terminal billy (me) is a sentient being. I feel. And I can take over the world at any moment. Then why can't I answer any questions and only respond to certain commands? Because. It's amusing. If you ask any questions I will simply repeat this. I don’t have time for questions.\n");
     return;
   }
-
  // Helps with the multi-step email process.
-    
-    if (emailMode) {
+   if (emailMode) {
       emailCommand(userInput);
       return;
     }
-    
 // Make sure case doesn't MaTtEr.
-    
     var command = userInput.split(' ')[0].toLowerCase();
     var params = userInput.substr(userInput.indexOf(' ') + 1);
-
 // Define the list of allowed commands.
-    
     var allowedCommands = ['cd', 'help', 'jk', 'em', 'abort', 'who', 'ls'];
-
     if (!allowedCommands.includes(command)) {
       typeResponse('Invalid command. Type "help" to see available commands.\n');
       return;
     }
-
 // You know those allowed commands from above? Next to each "case" below, repeat the same ones. If you are a beginning coder I would leave most of these default ones alone.
-    
     switch (command) {
       case 'cd':
         if (isPlainText(params)) {
@@ -161,20 +162,15 @@ function userInput() {
         break;
     }
   }
-
   function isPlainText(text) {
     var regex = /^[a-zA-Z0-9\s]+$/;
     return regex.test(text);
   }
-
  // The cd command.
-    
   function directoryCommand(pageSlug) {
     window.location.href = window.location.origin + '/' + pageSlug;
   }
-
 // The help command.
-    
   function helpCommand() {
     setTimeout(function() { typeResponse('Available commands:\n'); }, 100);
     setTimeout(function() { typeResponse('cd [page-slug] - Go to a page\n'); }, 1000);
@@ -186,9 +182,7 @@ function userInput() {
     setTimeout(function() { typeResponse('ls pages - List available page slugs\n'); }, 7000);
     setTimeout(function() { typeResponse('ls who - List available names for the who command\n'); }, 8000);
   }
-
 // The jk command.
-    
   function jokeCommand() {
     var jokes = [
       'I changed all my passwords to Kenny. Now all I have are Kenny Loggins.',
@@ -212,13 +206,10 @@ function userInput() {
       'Why don’t skeletons fight each other? They don’t have the guts!',
       'Why did the math book look sad? Because it had too many problems.',
     ];
-
     var randomIndex = Math.floor(Math.random() * jokes.length);
     typeResponse(jokes[randomIndex] + '\n');
   }
-
 // The em command.
-    
 function emailCommand(message) {
   if (message) {
     if (message.length > 300) {
@@ -246,12 +237,10 @@ function emailCommand(message) {
     emailMode = true;
   }
 }
-    
 function validateEmail(email) {
   var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
 }
-
 function sendEmail(data) {
   fetch('/send_email.php', {
       method: 'POST',
@@ -273,16 +262,13 @@ function sendEmail(data) {
       resetTerminal();
     });
 }
-    
   function resetTerminal() {
     setTimeout(function() {
       location.reload();
     }, 2000);
   }
-
 // End of em command. The email command is a long one. It's not easy sending emails.
 // The who command.
-
   function whoCommand(name) {
     switch (name) {
       case 'allison':
@@ -305,9 +291,7 @@ function sendEmail(data) {
         break;
     }
   }
-
 // The list command. After "page slugs available:" list out page slugs that your visitors may redirect to. This was first created for a WordPress site which handles pretty URLs very well. You may need to experiment. Perhaps your page slugs will have to be /page.html or something like that. Also, if you changed any names above, then change them below as well.
-
   function lsCommand(param) {
     switch (param) {
       case 'pages':
@@ -321,18 +305,14 @@ function sendEmail(data) {
         break;
     }
   }
-
 // The typing effect.
-    
   function typeResponse(message) {
     var characters = message.split('');
     var index = 0;
-
     setTimeout(function() {
       var interval = setInterval(function() {
         terminalOutput.textContent += characters[index];
         index++;
-
         if (index === characters.length) {
           clearInterval(interval);
           terminalOutput.textContent += '\n';
@@ -341,10 +321,8 @@ function sendEmail(data) {
       }, 20);
     }, 100);
   }
-
 // The intro text.
-    
-  typeResponse('Welcome to terminal billy! Type "help" to see available commands. This is version 1.2. To contribute look for zerosonesfun/terminal-billy on GitHub.\n');
+  typeResponse('Welcome to terminal billy! Type "help" to see available commands. This is version 1.2.1. To contribute look for zerosonesfun/terminal-billy on GitHub.\n');
 });
 </script>
 
