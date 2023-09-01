@@ -82,15 +82,6 @@
 <!-- Beginning of JavaScript. The addEventListener is how the code knows where to look for commands and where to print text. -->
 
 <script>
-var items=document.querySelectorAll(".wp-block-post");
-items.forEach(function(item){
-  item.addEventListener("click",function(ev){
-     var link=item.getElementsByTagName("a")[0];
-     link.click();
-  })
-});
-</script>
-<script>
 // Let's get it started in here.    
 document.addEventListener('DOMContentLoaded', function() {
   var terminalInput = document.querySelector('.terminal-input');
