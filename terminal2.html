@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Billy Wilcosky">
+    <meta name="license" content="GNUv3">
+    <meta name="description" content="Terminal Billy is the fun and nerdy way to interact with websites.">
+    <meta name="keywords" content="command line, terminal, interactive, navigation">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Terminal Billy - Fun and Nerdy Interaction">
+    <meta property="og:description" content="Terminal Billy is the fun and nerdy way to interact with websites.">
+    <title>$b</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: monospace;
+        }
+        .terminal-input {
+            background: transparent;
+            border: none;
+            font-size: inherit;
+            color: inherit;
+            font-family: monospace;
+            width: 100%;
+        }
+        .terminal-input-wrap {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-items: stretch;
+        }
+        .terminal-input-container {
+            white-space: nowrap;
+        }
+        .terminal-container {
+            color: #fff;
+        }
+        .terminal-input:focus {
+            outline: none;
+        }
+        .terminal-output {
+            white-space: pre-wrap;
+        }
+        .typing::after {
+            content: "";
+            animation: typing 1s steps(40, end);
+        }
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+        .bready {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main container for the terminal interface -->
+    <div class="terminal-container">
+        <pre class="terminal-output"></pre>
+        <div class="terminal-input-wrap">
+            <div class="bready">$b</div>
+            <input type="text" class="terminal-input" autofocus>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const terminalInput = document.querySelector('.terminal-input');
+            const terminalOutput = document.querySelector('.terminal-output');
+            const allowedCommands = ['cd', 'help', 'jk', 'abort', 'who', 'ls'];
+
+            // Set focus on the input field after a delay
+            setTimeout(() => terminalInput.focus(), 3000);
+
+            // Listen for the Enter key press
+            terminalInput.addEventListener('keypress', event => {
+                if (event.keyCode === 13) { // 13 is the Enter key
+                    event.preventDefault();
+                    handleUserInput();
+                }
+            });
+
+            // Handle user input
+            function handleUserInput() {
+                const userInput = terminalInput.value.trim(); // Get input and trim whitespace
+                terminalInput.value = ''; // Clear the input field
+
+                const [command, ...paramsArray] = userInput.split(' ');
+                const commandLower = command.toLowerCase(); // Convert command to lowercase
+                const params = paramsArray.join(' '); // Join the parameters back into a string
+
+                if (!allowedCommands.includes(commandLower)) {
+                    typeResponse('Invalid command. Type "help" to see available commands.\n');
+                    return;
+                }
+
+                switch (commandLower) {
+                    case 'cd':
+                        handleCdCommand(params);
+                        break;
+                    case 'help':
+                        handleHelpCommand();
+                        break;
+                    case 'jk':
+                        handleJokeCommand();
+                        break;
+                    case 'abort':
+                        resetTerminal();
+                        break;
+                    case 'who':
+                        handleWhoCommand(params);
+                        break;
+                    case 'ls':
+                        handleLsCommand(params);
+                        break;
+                }
+            }
+
+            // Command Handlers
+            function handleCdCommand(pageSlug) {
+                if (isPlainText(pageSlug)) {
+                    window.location.href = `${window.location.origin}/${pageSlug}`;
+                } else {
+                    typeResponse('Invalid command. Page slug must be plain text.\n');
+                }
+            }
+
+            function handleHelpCommand() {
+                const commands = [
+                    'cd [page-slug] - Go to a page',
+                    'help - Show available commands',
+                    'jk - Tell a joke',
+                    'abort - Refresh the page',
+                    'who [name] - Get information about a person',
+                    'ls pages - List available page slugs',
+                    'ls who - List available names for the who command'
+                ];
+                displayCommandsWithDelay(commands);
+            }
+
+            function handleJokeCommand() {
+                const jokes = [
+                    'I changed all my passwords to Kenny. Now all I have are Kenny Loggins.',
+                    'Why don’t skeletons fight each other? They don’t have the guts!',
+                    'Why don’t scientists trust atoms? Because they make up everything!',
+                    'I used to play piano by ear, but now I use my hands.',
+                    'Why did the scarecrow win an award? Because he was outstanding in his field!',
+                    'Did you hear about the mathematician who’s afraid of negative numbers? He will stop at nothing to avoid them!',
+                    'Why don’t eggs tell jokes? Because they might crack up!',
+                    'What do you call fake spaghetti? An impasta!',
+                    'Why don’t scientists trust atoms? Because they make up everything!',
+                    'What did one wall say to the other wall? I’ll meet you at the corner!',
+                    'I told my wife she should embrace her mistakes. She hugged me.',
+                    'Why don’t skeletons fight each other? They don’t have the guts!',
+                    'How do you catch a squirrel? Climb a tree and act like a nut!',
+                    'What did the grape say when it got stepped on? Nothing, it just let out a little wine!',
+                    'I’m reading a book about anti-gravity. It’s impossible to put down!',
+                    'Why don’t scientists trust atoms? Because they make up everything!',
+                    'How do you organize a space party? You planet!',
+                    'I told my wife she should embrace her mistakes. She hugged me.',
+                    'Why don’t skeletons fight each other? They don’t have the guts!',
+                    'Why did the math book look sad? Because it had too many problems.'
+                ];
+                const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+                typeResponse(randomJoke + '\n');
+            }
+
+            function handleWhoCommand(name) {
+                const people = {
+                    'allison': 'Allison is a talented and passionate individual who does most everything for Billy. Billy is married to Allison and they have two children. Allison enjoys pop culture, books, movies, nerdy things, and chocolate.\n',
+                    'finn': 'Finn is a brilliant mind with a knack for problem-solving. He is an expert in data analysis, machine learning, and artificial intelligence. In his spare time, he enjoys playing chess and writing code.\n',
+                    'hannah': 'Hannah is a multi-talented individual with a passion for music and writing. She is a skilled pianist, songwriter, and vocalist. In her free time, she enjoys playing video games and reading.\n',
+                    'billy': "Billy Wilcosky created me. He also creates music, art, code, and various other things. He works within the Talent Acquisition industry and dreams of world peace. Barf. He made me say that.\n",
+                    'infinite third': "Infinite Third, also known as Billy Mays III, is an ambient/experimental musician and composer. His music is known for its atmospheric and introspective qualities. To know more about Infinite Third, you can visit his official website or listen to his albums on various music platforms.\n"
+                };
+
+                if (people[name]) {
+                    typeResponse(people[name]);
+                } else {
+                    typeResponse('Invalid name. Type "ls who" to see available names.\n');
+                }
+            }
+
+            function handleLsCommand(param) {
+                const lists = {
+                    'pages': 'Page slugs available: activity, explore, music, code, visual-arts, services, wordpress-blogs, contact\n',
+                    'who': 'Names available for the who command: allison, finn, hannah, billy, infinite third\n'
+                };
+
+                if (lists[param]) {
+                    typeResponse(lists[param]);
+                } else {
+                    typeResponse('Invalid command. Type "help" to see available commands.\n');
+                }
+            }
+
+            // Utility Functions
+            function isPlainText(text) {
+                return /^[a-zA-Z0-9\s]+$/.test(text);
+            }
+
+            function displayCommandsWithDelay(commands) {
+                commands.forEach((cmd, index) => setTimeout(() => typeResponse(cmd + '\n'), index * 1000));
+            }
+
+            // Function to simulate typing effect in the terminal
+            async function typeResponse(message) {
+                const characters = message.split('');
+                for (const char of characters) {
+                    terminalOutput.textContent += char;
+                    await new Promise(resolve => setTimeout(resolve, 20)); // Typing speed
+                }
+                terminalOutput.textContent += '\n';
+                terminalOutput.scrollTop = terminalOutput.scrollHeight; // Scroll to the bottom of the output
+            }
+
+            function resetTerminal() {
+                terminalOutput.textContent = '';
+                terminalInput.value = '';
+                typeResponse('Welcome to terminal billy! Type "help" to see available commands. This is version 1.2.2. To contribute look for zerosonesfun/terminal-billy on GitHub.\n');
+            }
+
+            // Initial welcome message
+            typeResponse('Welcome to terminal billy! Type "help" to see available commands. This is version 1.2.2. To contribute look for zerosonesfun/terminal-billy on GitHub.\n');
+        });
+    </script>
+</body>
+</html>
