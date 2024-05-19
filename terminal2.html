@@ -204,7 +204,7 @@
 
             // Utility Functions
             function isPlainText(text) {
-                return /^[a-zA-Z0-9\s]+$/.test(text);
+                return /^[a-zA-Z0-9\/\.\-_]+$/.test(text);
             }
 
             function displayCommandsWithDelay(commands) {
@@ -223,9 +223,7 @@
             }
 
             function resetTerminal() {
-                terminalOutput.textContent = '';
-                terminalInput.value = '';
-                typeResponse('Welcome to terminal billy! Type "help" to see available commands. This is version 2.0.0. To contribute look for zerosonesfun/terminal-billy on GitHub.\n');
+                setTimeout(() => location.reload(), 2000);
             }
 
             // Initial welcome message
