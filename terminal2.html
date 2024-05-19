@@ -135,10 +135,10 @@
 
             function handleHelpCommand() {
                 const commands = [
-                    'cd [page-slug] - Go to a page',
+                    'cd [page-slug] or path - Go to a page',
                     'help - Show available commands',
                     'jk - Tell a joke',
-                    'abort - Refresh the page',
+                    'abort - Restart',
                     'who [name] - Get information about a person',
                     'ls pages - List available page slugs',
                     'ls who - List available names for the who command'
@@ -191,7 +191,7 @@
 
             function handleLsCommand(param) {
                 const lists = {
-                    'pages': 'Page slugs available: activity, explore, music, code, visual-arts, services, wordpress-blogs, contact\n',
+                    'pages': 'Page slugs available: activity, explore, music, code, visual-arts, services, wordpress-blogs, contact (or type cd and path)\n',
                     'who': 'Names available for the who command: allison, finn, hannah, billy, infinite third\n'
                 };
 
